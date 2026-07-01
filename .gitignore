@@ -1,0 +1,25 @@
+# Ignore everything by default
+*
+
+# Allow .gitignore and README.md
+!.gitignore
+!README.md
+
+# Allow entire frontend directory
+!frontend/
+!frontend/**
+
+# Allow specific backend subdirectories
+!backend/
+!backend/auth/
+!backend/auth/**
+!backend/prompts/
+!backend/prompts/**
+!backend/utils/
+!backend/utils/**
+!backend/config/
+!backend/config/**
+
+# Ignore pycache inside allowed directories
+**/__pycache__/
+*.py[oc]

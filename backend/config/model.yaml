@@ -1,0 +1,30 @@
+# ollama models - text model , vision model 
+# google models - text model , vision model
+# groq models - text model 
+# openrouter - image model  
+# Huggingface - speech model
+
+
+text:
+  models:
+    llama-3.3:
+      provider: groq
+
+    gemini-2.5-flash:
+      provider: google
+
+    qwen3:
+      provider: ollama
+
+vision:
+  models:
+    gemini-2.5-pro:
+      provider: google
+
+    llava:
+      provider: ollama
+
+speech:
+  models:
+    whisper-large-v3:
+      provider: huggingface
