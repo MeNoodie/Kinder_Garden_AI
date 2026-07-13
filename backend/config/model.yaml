@@ -28,3 +28,8 @@ speech:
   models:
     whisper-large-v3:
       provider: huggingface
+
+image_generation:
+  models:
+    black-forest-labs/FLUX.1-schnell:
+      provider: huggingface_inference

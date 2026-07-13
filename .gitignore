@@ -8,6 +8,8 @@
 # Allow entire frontend directory
 !frontend/
 !frontend/**
+frontend/.next/
+frontend/node_modules/
 
 # Allow specific backend subdirectories
 !backend/
@@ -17,9 +19,17 @@
 !backend/prompts/**
 !backend/utils/
 !backend/utils/**
+!backend/services/
+!backend/services/**
 !backend/config/
 !backend/config/**
+!backend/routes/
+!backend/routes/**
+!backend/api/
+!backend/api/**
 
 # Ignore pycache inside allowed directories
 **/__pycache__/
 *.py[oc]
+
+/backend/tools
