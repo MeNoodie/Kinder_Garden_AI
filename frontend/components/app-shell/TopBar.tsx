@@ -1,4 +1,5 @@
-import { ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { Menu } from "lucide-react";
 
 export function TopBar({
   onShowCode,
@@ -8,21 +9,24 @@ export function TopBar({
   showCodeAvailable: boolean;
 }) {
   return (
-    <header className="flex h-14 items-center justify-between border-b border-[#262D3D] bg-[#111827]/70 px-4 backdrop-blur-md md:px-6">
+    <header className="flex h-16 items-center justify-between border-b border-[#DADFD2] bg-white px-5 md:px-7">
       <div className="flex items-center gap-3">
-        <div className="h-2.5 w-2.5 rounded-full bg-[#14D99B]" />
-        <span className="text-sm text-[#9CA3AF]">Multimodal AI Playground</span>
+        <Link href="/" className="text-sm font-semibold uppercase tracking-[0.18em]">
+          Multimodal AI
+        </Link>
+        <span className="hidden h-1.5 w-1.5 rounded-full bg-[#B7F500] md:block" />
+        <span className="hidden text-sm text-[#5D6458] md:block">Playground</span>
       </div>
       {showCodeAvailable ? (
         <button
           onClick={onShowCode}
-          className="inline-flex items-center gap-2 rounded-full border border-[#262D3D] bg-white/5 px-3 py-1.5 text-sm text-[#F3F4F6] transition hover:bg-[rgba(79,140,255,0.12)]"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#101410] bg-white text-[#101410] transition hover:bg-[#D7FF5F]"
+          title="Show code"
         >
-          Show Code
-          <ChevronRight className="h-4 w-4" />
+          <Menu className="h-4 w-4" />
         </button>
       ) : (
-        <span className="text-sm text-[#9CA3AF]">Select a mode to enable code panel</span>
+        <span className="text-sm text-[#5D6458]">Select a mode</span>
       )}
     </header>
   );

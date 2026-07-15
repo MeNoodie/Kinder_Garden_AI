@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html,
@@ -13,11 +13,8 @@ body {
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at top left, rgba(79, 140, 255, 0.08), transparent 28%),
-    radial-gradient(circle at top right, rgba(20, 217, 155, 0.07), transparent 20%),
-    #0b0f19;
-  color: #f3f4f6;
+  background: #f6f7f2;
+  color: #101410;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -30,13 +27,6 @@ a {
   text-decoration: none;
 }
 
-.glass-panel {
-  background: rgba(22, 27, 38, 0.84);
-  backdrop-filter: blur(18px);
-  border: 1px solid rgba(38, 45, 61, 0.9);
-  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.32);
-}
-
 .subtle-scrollbar::-webkit-scrollbar {
   width: 10px;
 }
@@ -46,6 +36,6 @@ a {
 }
 
 .subtle-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(156, 163, 175, 0.22);
+  background: rgba(93, 100, 88, 0.24);
   border-radius: 999px;
 }

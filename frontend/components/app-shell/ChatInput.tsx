@@ -1,27 +1,56 @@
 import { Paperclip, Mic, Send } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
-export function ChatInput() {
+export function ChatInput({
+  value,
+  disabled,
+  onChange,
+  onSubmit,
+}: {
+  value: string;
+  disabled?: boolean;
+  onChange: (value: string) => void;
+  onSubmit: () => void;
+}) {
   return (
-    <div className="rounded-[28px] border border-[#262D3D] bg-[#161B26]/90 p-4 shadow-glass backdrop-blur-xl">
-      <div className="flex min-h-[128px] flex-col justify-between gap-4">
-        <div className="text-sm text-[#9CA3AF]">
-          Drag and drop files, paste text, or upload audio and images to start a routed run.
-        </div>
+    <div className="rounded-[24px] border border-[#DADFD2] bg-[#F7F8F3] p-3">
+      <div className="flex flex-col gap-3">
+        <textarea
+          className="max-h-28 min-h-16 w-full resize-none rounded-2xl border border-[#C9D0C1] bg-white px-4 py-3 text-sm text-[#101410] outline-none transition focus:border-[#101410] sm:min-h-[76px]"
+          placeholder="Ask something..."
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" && !event.shiftKey) {
+              event.preventDefault();
+              onSubmit();
+            }
+          }}
+          disabled={disabled}
+        />
         <div className="flex items-end gap-3">
-          <button className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[#262D3D] bg-white/5 text-[#F3F4F6] transition hover:bg-[rgba(79,140,255,0.12)]">
+          <button
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#C9D0C1] bg-white text-[#101410] transition hover:bg-[#D7FF5F] disabled:opacity-50"
+            disabled={disabled}
+            type="button"
+          >
             <Paperclip className="h-4 w-4" />
           </button>
-          <button className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[#262D3D] bg-white/5 text-[#F3F4F6] transition hover:bg-[rgba(79,140,255,0.12)]">
+          <button
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#C9D0C1] bg-white text-[#101410] transition hover:bg-[#D7FF5F] disabled:opacity-50"
+            disabled={disabled}
+            type="button"
+          >
             <Mic className="h-4 w-4" />
           </button>
-          <div className="flex min-h-[72px] flex-1 rounded-2xl border border-[#262D3D] bg-[#0B0F19] px-4 py-3 text-sm text-[#9CA3AF]">
-            Large input area for prompts, follow-ups, and multimodal instructions.
-          </div>
-          <Button className="h-11 rounded-2xl bg-[#4F8CFF] px-4 text-white hover:bg-[#4F8CFF]/90">
-            <Send className="mr-2 h-4 w-4" />
+          <button
+            className="ml-auto h-11 rounded-full bg-[#101410] px-5 text-white hover:bg-[#2A3028] disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={disabled || !value.trim()}
+            onClick={onSubmit}
+            type="button"
+          >
+            <Send className="mr-2 inline h-4 w-4" />
             Send
-          </Button>
+          </button>
         </div>
       </div>
     </div>

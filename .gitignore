@@ -10,6 +10,7 @@
 !frontend/**
 frontend/.next/
 frontend/node_modules/
+frontend/*.log
 
 # Allow specific backend subdirectories
 !backend/

@@ -1,82 +1,47 @@
 import Link from "next/link";
-import { ArrowRight, Sparkles, Wand2, Workflow } from "lucide-react";
-
-const highlights = [
-  {
-    icon: Workflow,
-    title: "Mode-aware workflows",
-    description: "Switch between text, image, and speech flows without leaving the workspace.",
-  },
-  {
-    icon: Sparkles,
-    title: "Premium chat feel",
-    description: "Minimal chrome, soft borders, and calm spacing inspired by modern AI tools.",
-  },
-  {
-    icon: Wand2,
-    title: "Learning first",
-    description: "Built to show how model routing and implementation details fit together.",
-  },
-];
+import { ArrowRight } from "lucide-react";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen px-6 py-8 text-[#F3F4F6]">
-      <div className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-7xl flex-col overflow-hidden rounded-[28px] border border-[#262D3D] bg-[#111827]/40 shadow-glass backdrop-blur-xl">
-        <section className="flex flex-1 flex-col justify-between gap-10 px-6 py-8 md:px-10 lg:px-12">
-          <header className="flex items-center justify-between">
-            <div>
-              <p className="text-sm uppercase tracking-[0.24em] text-[#9CA3AF]">Multimodal AI Playground</p>
-              <h1 className="mt-3 max-w-2xl text-4xl font-semibold tracking-tight md:text-6xl">
-                Build, test, and understand AI workflows in one elegant workspace.
-              </h1>
-            </div>
-            <div className="hidden rounded-full border border-[#262D3D] bg-white/5 px-4 py-2 text-sm text-[#9CA3AF] md:block">
-              Dark mode only
-            </div>
-          </header>
-
-          <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
-            <div className="glass-panel rounded-2xl p-6 md:p-8">
-              <p className="max-w-2xl text-base leading-7 text-[#9CA3AF] md:text-lg">
-                A focused interface for engineers who want a fast, refined way to experiment with
-                text, image, and speech models.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link
-                  href="/chat"
-                  className="inline-flex items-center gap-2 rounded-2xl bg-[#4F8CFF] px-5 py-3 text-sm font-medium text-white transition-transform duration-200 hover:scale-[1.02]"
-                >
-                  Let&apos;s Get Started
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <div className="inline-flex items-center rounded-2xl border border-[#262D3D] bg-white/5 px-5 py-3 text-sm text-[#9CA3AF]">
-                  Built for multimodal routing
-                </div>
-              </div>
-            </div>
-
-            <div className="grid gap-4">
-              {highlights.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <article key={item.title} className="glass-panel rounded-2xl p-5">
-                    <div className="flex items-start gap-4">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#4F8CFF]/12 text-[#4F8CFF]">
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <div>
-                        <h2 className="text-base font-medium">{item.title}</h2>
-                        <p className="mt-1 text-sm leading-6 text-[#9CA3AF]">{item.description}</p>
-                      </div>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
+    <main className="min-h-screen bg-[#F6F7F2] px-5 py-5 text-[#101410]">
+      <section className="mx-auto flex min-h-[calc(100vh-2.5rem)] max-w-6xl flex-col rounded-[28px] border border-[#DADFD2] bg-white">
+        <nav className="flex h-16 items-center justify-between border-b border-[#DADFD2] px-5 md:px-8">
+          <Link href="/" className="text-sm font-semibold uppercase tracking-[0.18em]">
+            Multimodal AI
+          </Link>
+          <div className="flex overflow-hidden rounded-full border border-[#101410] text-sm">
+            <Link href="/" className="bg-[#101410] px-5 py-2 text-white">
+              Home
+            </Link>
+            <a href="#about" className="px-5 py-2">
+              About
+            </a>
           </div>
-        </section>
-      </div>
+        </nav>
+
+        <div className="flex flex-1 flex-col items-center justify-center px-6 py-16 text-center">
+          <p className="mb-4 rounded-full bg-[#D7FF5F] px-4 py-2 text-sm font-medium">
+            Simple multi-input AI playground
+          </p>
+          <h1 className="max-w-3xl text-4xl font-semibold leading-tight md:text-6xl">
+            Build with text, image, and audio models in one clean workspace.
+          </h1>
+          <p className="mt-5 max-w-xl text-base leading-7 text-[#5D6458]">
+            Select a mode, choose a model, send a prompt, and see the response without extra clutter.
+          </p>
+          <Link
+            href="/chat"
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#101410] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#2A3028]"
+          >
+            Let&apos;s get started
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div id="about" className="border-t border-[#DADFD2] px-6 py-5 text-center text-sm text-[#5D6458]">
+          A lightweight frontend for testing your FastAPI multimodal backend.
+        </div>
+      </section>
     </main>
   );
 }

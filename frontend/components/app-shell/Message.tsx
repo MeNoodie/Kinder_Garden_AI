@@ -1,5 +1,3 @@
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { Copy } from "lucide-react";
 
 export function Message({
@@ -17,19 +15,19 @@ export function Message({
     <article
       className={`rounded-[24px] border px-4 py-4 ${
         isAssistant
-          ? "border-[#262D3D] bg-[#161B26]/80"
-          : "border-[#4F8CFF]/20 bg-[rgba(79,140,255,0.08)]"
+          ? "border-[#DADFD2] bg-white"
+          : "border-[#C9D0C1] bg-[#F7F8F3]"
       }`}
     >
-      <div className="mb-3 flex items-center justify-between text-xs text-[#9CA3AF]">
+      <div className="mb-3 flex items-center justify-between text-xs text-[#5D6458]">
         <span>{isAssistant ? "Assistant" : "You"}</span>
         <div className="flex items-center gap-3">
           <span>{time}</span>
           {isAssistant && <Copy className="h-3.5 w-3.5 cursor-pointer" />}
         </div>
       </div>
-      <div className="prose prose-invert max-w-none prose-p:leading-7 prose-pre:bg-[#0B0F19] prose-pre:border prose-pre:border-[#262D3D] prose-code:text-[#F3F4F6]">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+      <div className="whitespace-pre-wrap break-words text-sm leading-7 text-[#101410]">
+        {content}
       </div>
     </article>
   );
