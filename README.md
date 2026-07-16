@@ -1,32 +1,6 @@
-
 <div align="center">
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 150" width="100%" height="150">
-  <style>
-    .text {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      font-size: 58px;
-      font-weight: 900;
-      fill: transparent;
-      stroke-width: 2px;
-      stroke-dasharray: 1000;
-      stroke-dashoffset: 1000;
-      animation: draw 2s forwards, glow 2s infinite alternate 2s, fillText 1s forwards 1.5s;
-    }
-    .accent { stroke: #00E5FF; }
-    .base { stroke: #B0BEC5; }
-    @keyframes draw { to { stroke-dashoffset: 0; } }
-    @keyframes fillText { to { fill: #ffffff; stroke: transparent; } }
-    @keyframes glow {
-      from { filter: drop-shadow(0 0 2px #00E5FF); }
-      to { filter: drop-shadow(0 0 12px #00E5FF); }
-    }
-  </style>
-  <rect width="100%" height="100%" fill="#0d1117"/>
-  <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" class="text base">
-    kinder_<tspan class="text accent">Garden AI</tspan>
-  </text>
-</svg>
+<img src="./logo.svg" alt="Kinder_Garden AI Logo" width="100%">
 
 **A hands-on AI engineering sandbox for learning multimodal routing, provider abstraction, and safe backend architecture.**
 
@@ -36,10 +10,6 @@
   <a href="https://nextjs.org/"><img alt="Next.js" src="https://img.shields.io/badge/Frontend-Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white"></a>
   <a href="https://groq.com"><img alt="Groq" src="https://img.shields.io/badge/Engine-Groq%20Powered-F55036?style=for-the-badge"></a>
   <a href="https://ollama.com"><img alt="Ollama" src="https://img.shields.io/badge/Runtime-Ollama%20Local%20%26%20Cloud-101010?style=for-the-badge"></a>
-</p>
-
-<p align="center">
-  <strong>Learn the architecture behind practical AI apps, not just the single API call.</strong>
 </p>
 
 </div>
