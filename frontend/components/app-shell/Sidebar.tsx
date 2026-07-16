@@ -14,13 +14,16 @@ export const modeOptions = [
 ];
 
 export const modelOptions = [
-  { value: "gemini-2.5-flash", label: "Text: gemini-2.5-flash" },
-  { value: "llama-3.3", label: "Text: llama-3.3" },
-  { value: "qwen3", label: "Text: qwen3" },
-  { value: "gemini-2.5-pro", label: "Image: gemini-2.5-pro" },
-  { value: "llava", label: "Image: llava" },
-  { value: "whisper-large-v3", label: "Speech: whisper-large-v3" },
-  { value: "black-forest-labs/FLUX.1-schnell", label: "Image: black-forest-labs/FLUX.1-schnell" },
+  { value: "gemini-2.5-flash", label: "Text | Google | gemini-2.5-flash" },
+  { value: "glm-5.2:cloud", label: "Text | Ollama | glm-5.2:cloud" },
+  { value: "qwen/qwen3-32b", label: "Text | Groq | qwen/qwen3-32b" },
+  { value: "gemini-2.5-pro", label: "Vision | Google | gemini-2.5-pro" },
+  { value: "llava", label: "Vision | Ollama | llava" },
+  { value: "whisper-large-v3", label: "Speech | Groq | whisper-large-v3" },
+  {
+    value: "black-forest-labs/FLUX.1-schnell",
+    label: "Image | Hugging Face | FLUX.1-schnell",
+  },
 ] as const;
 
 export function Sidebar({

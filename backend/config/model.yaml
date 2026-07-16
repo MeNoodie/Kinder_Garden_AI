@@ -1,20 +1,18 @@
-# ollama models - text model , vision model 
-# google models - text model , vision model
-# groq models - text model 
-# openrouter - image model  
-# Huggingface - speech model
-
+# ollama models - text model, vision model
+# google models - text model, vision model
+# groq models - text model, speech transcription
+# huggingface - image generation
 
 text:
   models:
-    llama-3.3:
-      provider: groq
-
     gemini-2.5-flash:
       provider: google
 
-    qwen3:
+    glm-5.2:cloud:
       provider: ollama
+
+    qwen/qwen3-32b:
+      provider: groq
 
 vision:
   models:
@@ -27,9 +25,9 @@ vision:
 speech:
   models:
     whisper-large-v3:
-      provider: huggingface
+      provider: groq
 
 image_generation:
   models:
     black-forest-labs/FLUX.1-schnell:
-      provider: huggingface_inference
+      provider: huggingface

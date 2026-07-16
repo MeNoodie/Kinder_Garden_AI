@@ -20,7 +20,7 @@ backend/image_outputs/
 uvicorn*.log
 
 # Prompt scratch/private files
-backend/prompts/
+/backend/prompts
 
 # Tool/editor noise
 .DS_Store
