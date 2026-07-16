@@ -49,28 +49,38 @@ function getOutputFormat(mode: string) {
 export function Chat({ mode, model }: { mode: string; model: string }) {
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
   const [input, setInput] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit() {
     const query = input.trim();
+    const backendMode = getBackendMode(mode || "text-to-text");
 
-    if (!query || isLoading) {
+    if ((!query && !selectedFile) || isLoading) {
       return;
     }
 
     setInput("");
+    setSelectedFile(null);
     setIsLoading(true);
     setMessages((current) => [
       ...current,
-      { role: "user", content: query, time: getTime() },
+      {
+        role: "user",
+        content: selectedFile ? `${query || "Uploaded file"}\n\nFile: ${selectedFile.name}` : query,
+        time: getTime(),
+      },
     ]);
 
     try {
       const formData = new FormData();
-      formData.append("mode", getBackendMode(mode || "text-to-text"));
+      formData.append("mode", backendMode);
       formData.append("query", query);
       formData.append("model_name", model || "gemini-2.5-flash");
       formData.append("output_format", getOutputFormat(mode));
+      if (selectedFile) {
+        formData.append("file", selectedFile);
+      }
 
       const response = await fetch(`${API_BASE_URL}/api/chat`, {
         method: "POST",
@@ -129,8 +139,12 @@ export function Chat({ mode, model }: { mode: string; model: string }) {
           <div className="mx-auto max-w-3xl">
             <ChatInput
               disabled={isLoading}
+              file={selectedFile}
+              mode={getBackendMode(mode || "text-to-text")}
               value={input}
+              onClearFile={() => setSelectedFile(null)}
               onChange={setInput}
+              onFileChange={setSelectedFile}
               onSubmit={handleSubmit}
             />
           </div>

@@ -1,36 +1,29 @@
-# Ignore everything by default
-*
+# Local environment and secrets
+.env
+.env.*
+.gitignore
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
 
-# Allow .gitignore and README.md
-!.gitignore
-!README.md
-
-# Allow entire frontend directory
-!frontend/
-!frontend/**
-frontend/.next/
+# Frontend dependencies and build output
 frontend/node_modules/
+frontend/.next/
+frontend/out/
 frontend/*.log
 
-# Allow specific backend subdirectories
-!backend/
-!backend/auth/
-!backend/auth/**
-!backend/prompts/
-!backend/prompts/**
-!backend/utils/
-!backend/utils/**
-!backend/services/
-!backend/services/**
-!backend/config/
-!backend/config/**
-!backend/routes/
-!backend/routes/**
-!backend/api/
-!backend/api/**
+# Backend generated output
+audio_outputs/
+backend/image_outputs/
+uvicorn*.log
 
-# Ignore pycache inside allowed directories
-**/__pycache__/
-*.py[oc]
+# Prompt scratch/private files
+backend/prompts/
 
-/backend/tools
+# Tool/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

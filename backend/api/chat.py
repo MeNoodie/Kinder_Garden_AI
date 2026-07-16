@@ -4,7 +4,7 @@ import tempfile
 from typing import Any, Dict, Optional
 from uuid import uuid4
 from pathlib import Path
-
+from pydantic import BaseModel, Field
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -18,6 +18,13 @@ router = APIRouter(prefix="/api", tags=["chat"])
 # Temporary directory for uploaded image/audio files.
 TEMP_DIR = Path(tempfile.gettempdir()) / "multimodal_uploads"
 TEMP_DIR.mkdir(exist_ok=True)
+
+
+class ChatRequest(BaseModel):
+    mode: str = Field(..., description="Interactive Mode")
+    query: str = Field(..., description="The Query sent by the user")
+    model_name: Optional[str] = Field(default="gemini-2.5-flash", description="Use Model As Per Output Request")
+    output_format: str = Field(default="text", description="Given Format From Interactive Mode")
 
 
 async def save_upload_file(upload_file: UploadFile) -> str:
@@ -47,120 +54,70 @@ def cleanup_temp_file(file_path: Optional[str]) -> None:
 
 
 def build_response(
-    mode: str,
-    response: str,
+    mode: str, 
+    response: str, 
     output_format: str = "text",
     audio_file: Optional[str] = None,
+    image_file: Optional[str] = None
 ) -> Dict[str, Any]:
-    payload: Dict[str, Any] = {
+    
+    payload = {
         "status": "success",
         "mode": mode,
         "response": response,
         "output_format": output_format,
     }
-
+    # Add audio path to json response
     if audio_file:
         payload["audio_file"] = audio_file
 
+    # Add image path to json response
+
+    if image_file:
+        payload["image_file"] = image_file
+        
     return payload
 
 
-def text_msg(query: str, model_name: str, output_format: str) -> Dict[str, Any]:
-    response = process_text(user_query=query, model_name=model_name)
-
-    if output_format == "audio":
-        audio_file = text_to_speech(response)
-        return build_response("text", response, "audio", audio_file)
-
-    return build_response("text", response)
-
-
-# def image_msg(
-#     image_path: str,
-#     query: str,
-#     model_name: str,
-#     output_format: str,
-# ) -> Dict[str, Any]:
-#     response = process_image(
-#         image_path=image_path,
-#         user_query=query or "Describe this image in detail.",
-#         model_name=model_name,
-#     )
-
-#     if output_format == "audio":
-#         audio_file = text_to_speech(response)
-#         return build_response("image", response, "audio", audio_file)
-
-#     return build_response("image", response)
-
-
-# def audio_msg(
-#     audio_path: str,
-#     query: str,
-#     model_name: str,
-#     output_format: str,
-# ) -> Dict[str, Any]:
-#     response = process_audio(
-#         audio_path=audio_path,
-#         user_query=query,
-#         model_name=model_name,
-#     )
-
-#     if output_format == "audio":
-#         audio_file = text_to_speech(response)
-#         return build_response("audio", response, "audio", audio_file)
-
-#     return build_response("audio", response)
-
-
 @router.post("/chat")
-async def chat(
-    mode: str = Form(...),
-    query: str = Form(""),
-    file: Optional[UploadFile] = File(None),
-    model_name: Optional[str] = Form(None),
-    output_format: str = Form("text"),
-) -> Dict[str, Any]:
-    mode = mode.strip().lower()
-    output_format = output_format.strip().lower()
+async def chat(mode : str = Form(...),
+        query: str = Form(""),
+        file: Optional[UploadFile] = File(None),
+        model_name: Optional[str] = Form("gemini-2.5-flash"),
+        output_format: str = Form("text")) -> Dict[str, Any]:
 
-    if output_format not in {"text", "audio"}:
-        raise HTTPException(status_code=400, detail="output_format must be 'text' or 'audio'.")
+        mode = mode.strip().lower()
+        file_path: Optional[str] = None
 
-    file_path: Optional[str] = None
+        try:
+            # Text to Text 
+            if mode == "text":
+              if not query.strip():
+                 raise HTTPException(status_code=400 , detail = "Query is required")            
+            try:   
+                ai_response = process_text(query , model_name)
+                return build_response("text" , ai_response)
 
-    try:
-        if mode == "text":
-            if not query.strip():
-                raise HTTPException(status_code=400, detail="query is required for text mode.")
-            return text_msg(
-                query=query,
-                model_name=model_name or "gemini-2.5-flash",
-                output_format=output_format,
-            )
+            except Exception as e: 
+               raise HTTPException(status_code=502, detail = "Ai response Failed Due To process_text Failure")
+            
 
-        # if mode == "image":
-        #     if not file or not file.content_type or not file.content_type.startswith("image/"):
-        #         raise HTTPException(status_code=400, detail="Image mode requires an image file.")
-        #     file_path = await save_upload_file(file)
-        #     return image_msg(
-        #         image_path=file_path,
-        #         query=query,
-        #         model_name=model_name or "gemini-2.5-flash",
-        #         output_format=output_format,
-        #     )
+        finally:
+         if file_path: 
+            cleanup_temp_file(file_path)
 
-        # if mode == "audio":
-        #     if not file or not file.content_type or not file.content_type.startswith("audio/"):
-        #         raise HTTPException(status_code=400, detail="Audio mode requires an audio file.")
-        #     file_path = await save_upload_file(file)
-        #     return audio_msg(
-        #         audio_path=file_path,
-        #         query=query,
-        #         model_name=model_name or "whisper",
-        #         output_format=output_format,
-        #     )
 
-        raise HTTPException(status_code=400, detail="mode must be 'text', 'image', or 'audio'.")
-    finally:
-        cleanup_temp_file(file_path)
+
+
+if __name__ == "__main__":
+    import uvicorn
+    
+    # This fires up the Uvicorn server automatically when the script runs directly
+    uvicorn.run(
+        "chat:router",  # Change to "chat:app" if you bound the router to a FastAPI() app instance
+        host="127.0.0.1",
+        port=8000,
+        reload=True
+    )
+
+        
