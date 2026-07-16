@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./logo.svg" alt="Kinder_Garden AI Logo" width="100%">
+<img src="./gemini-svg.svg" alt="Kinder_Garden AI Logo" width="100%">
 
 **A hands-on AI engineering sandbox for learning multimodal routing, provider abstraction, and safe backend architecture.**
 
