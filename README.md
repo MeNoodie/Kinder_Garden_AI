@@ -1,65 +1,103 @@
-# Open AI Orchestrator
 
-> A hands-on AI engineering sandbox for learning how real multimodal systems route requests, swap providers, manage temporary files, and return predictable API responses.
+<div align="center">
 
-Open AI Orchestrator is a community-driven learning hub for developers who want to understand practical AI architecture, not just call a model once and hope for the best.
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 150" width="100%" height="150">
+  <style>
+    .text {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 58px;
+      font-weight: 900;
+      fill: transparent;
+      stroke-width: 2px;
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: draw 2s forwards, glow 2s infinite alternate 2s, fillText 1s forwards 1.5s;
+    }
+    .accent { stroke: #00E5FF; }
+    .base { stroke: #B0BEC5; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes fillText { to { fill: #ffffff; stroke: transparent; } }
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 2px #00E5FF); }
+      to { filter: drop-shadow(0 0 12px #00E5FF); }
+    }
+  </style>
+  <rect width="100%" height="100%" fill="#0d1117"/>
+  <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" class="text base">
+    kinder_<tspan class="text accent">Garden AI</tspan>
+  </text>
+</svg>
 
-Modern AI apps change fast. One week you may use Gemini for text, Groq for speech, and Ollama for local experiments. The next week you may need to swap models, add image inputs, or move a workflow from local hardware to a cloud provider. This project teaches the pattern that keeps that sane: **decouple your application logic from the model provider**.
+**A hands-on AI engineering sandbox for learning multimodal routing, provider abstraction, and safe backend architecture.**
 
-Instead of rewriting your app every time a model changes, Open AI Orchestrator uses a small FastAPI backend, a provider-aware dispatcher, and unified JSON responses so each workflow follows the same mental model.
+<p align="center">
+  <a href="#license"><img alt="License MIT" src="https://img.shields.io/badge/License-MIT-111827?style=for-the-badge"></a>
+  <a href="https://fastapi.tiangolo.com"><img alt="FastAPI" src="https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white"></a>
+  <a href="https://nextjs.org/"><img alt="Next.js" src="https://img.shields.io/badge/Frontend-Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white"></a>
+  <a href="https://groq.com"><img alt="Groq" src="https://img.shields.io/badge/Engine-Groq%20Powered-F55036?style=for-the-badge"></a>
+  <a href="https://ollama.com"><img alt="Ollama" src="https://img.shields.io/badge/Runtime-Ollama%20Local%20%26%20Cloud-101010?style=for-the-badge"></a>
+</p>
+
+<p align="center">
+  <strong>Learn the architecture behind practical AI apps, not just the single API call.</strong>
+</p>
+
+</div>
+
+## Why This Exists
+
+kinder_Garden AI is a community-driven learning hub for developers who want to understand how AI systems are wired in the real world.
+
+Modern AI apps rarely depend on one provider forever. A useful application may start with Gemini, add Groq for fast inference, use Ollama for local experiments, and later introduce image or audio workflows. Without a routing layer, every model swap leaks into the rest of the application.
+
+This project teaches a cleaner pattern:
+
+> **Keep application logic stable while model providers change underneath.**
+
+The backend exposes a consistent FastAPI interface, routes requests by mode/model, delegates work to provider-specific services, and returns a predictable JSON response.
 
 ---
 
-## ✨ Vision
+## Current Progress
 
-This repository is built for learners, builders, and contributors who want to see how AI systems are shaped from the inside:
+| Status | Capability | Notes |
+| --- | --- | --- |
+| `[PRODUCTION-READY]` | Text-to-Text endpoint | `POST /api/chat` accepts `mode`, `query`, `model_name`, and `output_format`. |
+| `[PRODUCTION-READY]` | Provider registry | Models are declared in `backend/config/model.yaml`. |
+| `[PRODUCTION-READY]` | Dynamic model routing | `cloud_service.py` resolves Google, Groq, Hugging Face, and Ollama providers. |
+| `[PRODUCTION-READY]` | Safe temp-file cleanup | Upload paths use `try...finally` to remove temporary files. |
+| `[EXPERIMENTAL]` | Image upload path | Image files are validated and staged for Image -> Text processing. |
+| `[EXPERIMENTAL]` | Audio upload path | Audio files are validated and staged for Speech -> Text processing. |
+| `[EXPERIMENTAL]` | Browser voice capture | Frontend can record microphone audio and submit it as a file. |
+| `[PLANNED]` | Streaming tokens | Useful for long LLM responses. |
+| `[PLANNED]` | Text-to-speech playback | Backend service exists; frontend playback is next. |
 
-- how frontend input becomes structured backend data
-- how a backend chooses between text, image, and audio workflows
-- how provider routing works across Google, Groq, and Ollama
-- how uploaded files are stored safely and cleaned up automatically
-- how a single API contract can support many model backends
+Built pieces:
 
-The goal is not to hide the architecture behind magic. The goal is to make the architecture visible, editable, and teachable.
-
----
-
-## 🚀 Current Progress
-
-Built so far:
-
-- **Text-to-Text JSON endpoint** through `POST /api/chat`
-- **FastAPI backend router** in `backend/api/chat.py`
-- **Provider abstraction layer** in `backend/utils/cloud_service.py`
-- **Model registry** in `backend/config/model.yaml`
-- **Google Gemini routing** for cloud text and vision models
-- **Groq routing** for text models and Whisper-style audio transcription
-- **Ollama routing** for local or cloud-hosted models
-- **Image upload validation path** prepared for Image -> Text workflows
-- **Audio upload validation path** prepared for Speech -> Text workflows
-- **Temporary upload lifecycle** using `try...finally` cleanup
-- **Centralized service files** for text, image, and speech workflows
-- **Debug logging** in the text service for failed AI calls
-- **Next.js frontend shell** with mode selection, model selection, text input, file upload, and voice recording controls
-
-Current focus:
-
-- Text -> Text is the working baseline.
-- Image/audio routes are structurally prepared and ready to connect to the service functions.
-- Text-to-speech and richer output rendering are planned next.
+- `[✓]` FastAPI backend router in `backend/api/chat.py`
+- `[✓]` Text workflow in `backend/services/text_service.py`
+- `[✓]` Vision helper in `backend/services/image_service.py`
+- `[✓]` Speech helper in `backend/services/speech_service.py`
+- `[✓]` Provider abstraction in `backend/utils/cloud_service.py`
+- `[✓]` Next.js frontend shell with mode/model selectors
+- `[✓]` Centralized logging for failed text model calls
 
 ---
 
-## 📦 System Requirements & Local Setup
+## System Requirements
 
-### Requirements
+| Tool | Required | Purpose |
+| --- | --- | --- |
+| Python 3.13+ | Yes | FastAPI backend runtime |
+| Node.js 20+ | Yes | Next.js frontend runtime |
+| Google API key | Optional | Gemini text/vision models |
+| Groq API key | Optional | Groq LLMs and Whisper transcription |
+| Hugging Face key | Optional | Image generation / hosted endpoints |
+| Ollama | Optional | Local or cloud-hosted Ollama models |
 
-| Tool | Purpose |
-| --- | --- |
-| Python 3.13+ | FastAPI backend |
-| Node.js 20+ | Next.js frontend |
-| Ollama | Optional local model runtime |
-| API keys | Google, Groq, and/or Hugging Face depending on models used |
+---
+
+## Local Setup
 
 ### 1. Clone The Repository
 
@@ -88,19 +126,19 @@ source .venv/bin/activate
 
 ### 3. Install Backend Dependencies
 
-If your branch has a `requirements.txt` file:
+If your branch has `requirements.txt`:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-This repo also supports the current `pyproject.toml` / `uv.lock` workflow:
+This repository also supports the current `pyproject.toml` / `uv.lock` workflow:
 
 ```bash
 uv sync
 ```
 
-### 4. Configure Environment Variables
+### 4. Create `.env`
 
 Create a `.env` file in the project root:
 
@@ -112,25 +150,25 @@ HUGGINGFACE_API_KEY=your_huggingface_api_key_here
 
 Use only the keys required by the models you are testing.
 
-### 5. Launch The Backend
+### 5. Start The Backend
 
 ```bash
 uvicorn main:app --reload
 ```
 
-The API will run at:
+Backend:
 
 ```text
 http://127.0.0.1:8000
 ```
 
-Open FastAPI docs:
+API docs:
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
-### 6. Launch The Frontend
+### 6. Start The Frontend
 
 ```bash
 cd frontend
@@ -144,7 +182,7 @@ Windows PowerShell may require:
 npm.cmd run dev
 ```
 
-Frontend URL:
+Frontend:
 
 ```text
 http://127.0.0.1:3000
@@ -152,11 +190,17 @@ http://127.0.0.1:3000
 
 ---
 
-## Using Ollama Locally
+## Ollama Local vs Cloud
 
-Ollama models only work if the Ollama server is running.
+| Runtime | Tag | How It Works | Common Failure |
+| --- | --- | --- | --- |
+| Ollama Local | `[LOCAL-ONLY]` | Backend calls a local Ollama server at `localhost:11434`. | `WinError 10061` means Ollama is not running. |
+| Ollama Cloud | `[EXPERIMENTAL]` | Use a cloud-hosted Ollama-compatible endpoint if configured. | Provider URL/auth must be configured correctly. |
+| Google Gemini | `[CLOUD]` | Uses `GOOGLE_API_KEY`. | Missing or invalid Google API key. |
+| Groq | `[CLOUD]` | Uses `GROQ_API_KEY`. | Wrong model id or invalid Groq key. |
+| Hugging Face | `[CLOUD]` | Uses `HUGGINGFACE_API_KEY`. | Missing token or unavailable model. |
 
-Start Ollama:
+Start Ollama locally:
 
 ```bash
 ollama serve
@@ -174,72 +218,52 @@ Check installed models:
 ollama list
 ```
 
-If you see an error like:
-
-```text
-WinError 10061: No connection could be made because the target machine actively refused it
-```
-
-the backend is trying to call Ollama, but Ollama is not running on `localhost:11434`.
-
-For cloud testing, select a Google or Groq model instead of an Ollama model.
+> **Safety rule:** If you select an Ollama model in the frontend, make sure the Ollama runtime is actually running before sending the request.
 
 ---
 
-## 🧠 Architecture Deep-Dive
+## Architecture Deep-Dive
 
-### High-Level Flow
+### Conceptual Pipeline
 
 ```text
-Frontend UI
-  |
-  | FormData:
-  | - mode
-  | - model_name
-  | - query
-  | - optional file
-  | - output_format
-  v
-FastAPI /api/chat
-  |
-  | Simple conditional dispatcher
-  v
-Mode handler
-  |
-  | text  -> process_text()
-  | image -> save temp file -> process_image()
-  | audio -> save temp file -> process_audio()
-  v
-Provider router
-  |
-  | google -> Gemini
-  | groq   -> Groq-hosted LLM / Whisper
-  | ollama -> local or cloud Ollama runtime
-  v
-Unified JSON response
+UI Clients
+    |
+    v
+FastAPI Router
+    |
+    v
+Strategy Dispatcher Switch
+    |
+    +--> Google GenAI
+    |
+    +--> Groq API
+    |
+    +--> Ollama Local
+    |
+    +--> Ollama Cloud
+    |
+    v
+Unified JSON Response
 ```
 
-### Request Shape
+### Request Contract
 
-The frontend sends a `multipart/form-data` request:
+The frontend sends `multipart/form-data` to:
 
 ```text
 POST /api/chat
 ```
 
-Fields:
+| Field | Type | Example | Required |
+| --- | --- | --- | --- |
+| `mode` | string | `text`, `image`, `audio` | Yes |
+| `model_name` | string | `gemini-2.5-flash`, `qwen/qwen3-32b`, `llava` | Yes |
+| `query` | string | `Explain transformers simply` | Required for text |
+| `file` | file | image/audio upload | Required for image/audio |
+| `output_format` | string | `text`, `audio` | No |
 
-| Field | Type | Example |
-| --- | --- | --- |
-| `mode` | string | `text`, `image`, `audio` |
-| `model_name` | string | `gemini-2.5-flash`, `qwen/qwen3-32b`, `llava` |
-| `query` | string | `Explain transformers simply` |
-| `file` | file | optional image/audio upload |
-| `output_format` | string | `text`, `audio` |
-
-### Response Shape
-
-Every workflow should return the same basic JSON contract:
+### Unified Response Contract
 
 ```json
 {
@@ -250,7 +274,7 @@ Every workflow should return the same basic JSON contract:
 }
 ```
 
-Audio/image workflows may add:
+Audio or image workflows may add:
 
 ```json
 {
@@ -259,9 +283,11 @@ Audio/image workflows may add:
 }
 ```
 
-### Conditional Dispatcher Pattern
+---
 
-The router keeps the first learning version intentionally direct:
+## Dispatcher Pattern
+
+The first learning version uses a simple conditional dispatcher:
 
 ```python
 if mode == "text":
@@ -276,17 +302,25 @@ if mode == "audio":
     return process_audio(...)
 ```
 
-This is easy for beginners to read, debug, and extend. Later, contributors can evolve it into a registry-based dispatcher.
+| Pattern | Status | Why It Is Used |
+| --- | --- | --- |
+| Simple Conditional Dispatcher | `[PRODUCTION-READY]` | Easy to read, debug, and teach. |
+| Provider Registry | `[PRODUCTION-READY]` | Keeps model/provider mapping outside application logic. |
+| Strategy Registry | `[PLANNED]` | Future upgrade for more modes and fewer conditionals. |
 
-### Safe File Lifecycle Pattern
+> **Architecture rule:** The frontend should not know how to call Gemini, Groq, or Ollama directly. It should only send `mode`, `model_name`, `query`, and optional `file` to the backend.
 
-Uploads are saved to a temporary directory:
+---
+
+## Safe Lifecycle Management
+
+Uploads are saved to:
 
 ```text
 tempfile.gettempdir() / "multimodal_uploads"
 ```
 
-The backend uses `try...finally` so files are removed even when model processing fails:
+The backend cleans temporary files with `try...finally`:
 
 ```python
 try:
@@ -297,13 +331,33 @@ finally:
     cleanup_temp_file(file_path)
 ```
 
-This matters because AI apps often process large images, audio recordings, and generated assets. Without cleanup, your development machine slowly fills with forgotten files.
+> **Safety rule:** Every workflow that writes an upload to disk must clean it up in `finally`, even when the AI provider fails.
+
+This prevents large image/audio uploads from silently filling the host machine with dead files.
+
+---
+
+## Provider Feature Matrix
+
+| Provider | Text | Vision | Audio | Local Runtime | Notes |
+| --- | --- | --- | --- | --- | --- |
+| Google Gemini | `[✓]` | `[✓]` | `[•]` | No | Strong cloud text and vision support. |
+| Groq | `[✓]` | `[•]` | `[✓]` | No | Fast hosted inference and Whisper transcription. |
+| Ollama Local | `[✓]` | `[✓]` | `[•]` | Yes | Requires `ollama serve`. |
+| Ollama Cloud | `[px]` | `[px]` | `[•]` | No | Planned/experimental depending on endpoint setup. |
+| Hugging Face | `[px]` | `[•]` | `[px]` | No | Used for hosted endpoints and generation experiments. |
+
+Legend:
+
+- `[✓]` implemented or structurally supported
+- `[px]` experimental / provider-dependent
+- `[•]` planned or not the current focus
 
 ---
 
 ## Model Configuration
 
-Models are configured in:
+Models live in:
 
 ```text
 backend/config/model.yaml
@@ -324,18 +378,15 @@ vision:
   models:
     gemini-2.5-pro:
       provider: google
-
-    llava:
-      provider: ollama
 ```
 
-The frontend model `value` must exactly match the YAML key:
+The frontend must send the exact YAML key:
 
 ```ts
 { value: "qwen/qwen3-32b", label: "Text | Groq | qwen/qwen3-32b" }
 ```
 
-The label is what users see. The value is what the backend receives.
+> **Routing rule:** The `label` is cosmetic. The `value` is the real model id sent to FastAPI.
 
 ---
 
@@ -361,86 +412,73 @@ O_Genrator/
       app-shell/
 ```
 
-Key files:
-
 | File | Responsibility |
 | --- | --- |
-| `main.py` | Creates the FastAPI app and mounts routers |
-| `backend/api/chat.py` | Main `/api/chat` request dispatcher |
-| `backend/config/model.yaml` | Model/provider registry |
-| `backend/utils/cloud_service.py` | Creates provider clients |
-| `backend/services/text_service.py` | Text model workflow |
-| `backend/services/image_service.py` | Vision and image generation helpers |
-| `backend/services/speech_service.py` | Speech-to-text and text-to-speech helpers |
-| `frontend/components/app-shell/Chat.tsx` | Sends chat `FormData` to backend |
-| `frontend/components/app-shell/Sidebar.tsx` | Mode/model selection |
+| `main.py` | Creates the FastAPI app and mounts routers. |
+| `backend/api/chat.py` | Main `/api/chat` dispatcher. |
+| `backend/config/model.yaml` | Model/provider registry. |
+| `backend/utils/cloud_service.py` | Creates provider clients. |
+| `backend/services/text_service.py` | Text model workflow. |
+| `backend/services/image_service.py` | Vision and image generation helpers. |
+| `backend/services/speech_service.py` | Speech-to-text and text-to-speech helpers. |
+| `frontend/components/app-shell/Chat.tsx` | Sends chat `FormData` to backend. |
+| `frontend/components/app-shell/Sidebar.tsx` | Mode/model selection. |
 
 ---
 
-## 🤝 Contribution Guide
+## Contribution Guide
 
-Open AI Orchestrator is designed to be friendly to first-time contributors and useful for experienced AI engineers.
+Open AI Orchestrator is built to welcome both beginners and experienced AI engineers.
 
-### Good First Issues
+### `[GOOD-FIRST-ISSUE]`
 
-Beginner-friendly ways to help:
+- Improve missing API key messages.
+- Add request examples for `POST /api/chat`.
+- Document known-good model ids for Gemini, Groq, and Ollama.
+- Add UI warnings for local Ollama models.
+- Add tests for text request validation.
 
-- improve error messages for missing API keys
-- add examples for `POST /api/chat`
-- document model names that work with Groq, Gemini, and Ollama
-- add UI hints when a user selects a local Ollama model
-- add small tests for text request validation
-- improve README setup instructions for Windows/macOS/Linux
+### `[INTERMEDIATE]`
 
-### Intermediate Contributions
+- Connect Image -> Text through `process_image`.
+- Connect Speech -> Text through `process_audio`.
+- Add Text -> Speech playback in the frontend.
+- Filter model dropdown by selected mode.
+- Add structured loading and error states.
 
-Great next steps:
+### `[ADVANCED]`
 
-- fully connect Image -> Text through `process_image`
-- fully connect Speech -> Text through `process_audio`
-- add Text -> Speech response playback in the frontend
-- add model filtering by selected mode
-- add loading/error states in the frontend chat UI
-- add health checks for configured providers
+- Add streaming token responses.
+- Replace conditionals with a strategy registry.
+- Add provider fallback chains.
+- Add structured logs with request IDs.
+- Add persistent generated file storage.
+- Add Docker Compose for backend, frontend, and Ollama.
 
-### Advanced Contributions
+### Pull Request Checklist
 
-High-impact areas:
-
-- streaming token responses from LLM providers
-- a registry-based dispatcher to replace conditional routing
-- provider fallback strategies
-- observability with request IDs and structured logs
-- persistent generated file storage
-- authentication and per-user API key management
-- Docker Compose setup for backend, frontend, and Ollama
-
-### Contribution Workflow
-
-1. Fork the repository.
-2. Create a feature branch:
+| Step | Requirement |
+| --- | --- |
+| 1 | Fork the repository. |
+| 2 | Create a focused feature branch. |
+| 3 | Make one clear change. |
+| 4 | Run local checks. |
+| 5 | Open a PR explaining what changed, why it matters, and how it was tested. |
 
 ```bash
 git checkout -b feature/your-feature-name
 ```
 
-3. Make a focused change.
-4. Run checks locally.
-5. Open a pull request with:
-   - what changed
-   - why it matters
-   - how you tested it
-
-> Good contributions do not need to be huge. A clear fix, a better error message, or a small test can make the project easier for the next learner.
+> **Contribution rule:** Small, well-tested improvements are valuable. A better error message can help the next learner move faster.
 
 ---
 
 ## License
 
-Add your preferred open-source license before public release.
+MIT. Update the repository with a `LICENSE` file before public release.
 
 ---
 
 ## Final Note
 
-This project is an invitation to learn AI engineering by building the plumbing yourself. If you have ever wondered how text, image, and audio workflows can share one backend without becoming tangled, this repo is a good place to experiment, break things safely, and understand the design choices one layer at a time.
+Open AI Orchestrator is an invitation to learn AI engineering by building the routing layer yourself. If you want to understand how text, vision, and audio workflows can share one backend without becoming tangled, this repo gives you a practical place to experiment.
