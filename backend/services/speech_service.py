@@ -39,7 +39,7 @@ def _normalize_response(response: Any) -> str:
     return str(response)
 
 
-def process_audio(audio_path: str, user_query: str = "", model_name: str = "whisper") -> str:
+def process_audio(audio_path: str, user_query: str = "", model_name: str = "whisper-large-v3") -> str:
     try:
         if not os.path.exists(audio_path):
             return f"Error: Audio file not found at {audio_path}"
@@ -54,7 +54,7 @@ def process_audio(audio_path: str, user_query: str = "", model_name: str = "whis
         if not user_query:
             return text
 
-        llm = get_chat_models("llama-3.3")
+        llm = get_chat_models("gemini-2.5-flash")
         response = llm.invoke(f"User speech:\n{text}\n\nQuery:\n{user_query}")
         return _normalize_response(response)
     except Exception as exc:

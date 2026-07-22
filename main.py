@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 
 from backend.api.chat import router as chat_router
 
@@ -11,6 +13,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+BASE_DIR = Path(__file__).resolve().parent
+app.mount("/outputs/images", StaticFiles(directory=BASE_DIR / "backend" / "image_outputs"), name="image_outputs")
+app.mount("/outputs/audio", StaticFiles(directory=BASE_DIR / "audio_outputs"), name="audio_outputs")
 app.include_router(chat_router)
 
 

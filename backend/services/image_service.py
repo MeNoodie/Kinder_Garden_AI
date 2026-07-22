@@ -25,7 +25,7 @@ def _normalize_response(response: Any) -> str:
     return str(response)
 
 
-def process_image(image_path: str, user_query: str, model_name: str = "gemini-2.5-flash") -> str:
+def process_image(image_path: str, user_query: str, model_name: str = "gemini-2.5-pro") -> str:
     try:
         with open(image_path, "rb") as image_file:
             image_base64 = base64.b64encode(image_file.read()).decode("utf-8")
@@ -50,24 +50,11 @@ def process_image(image_path: str, user_query: str, model_name: str = "gemini-2.
 
 
 def text_to_image(prompt: str, model_name: str = "black-forest-labs/FLUX.1-schnell") -> Optional[str]:
-
     try:
         result = generate_image_from_text(prompt, model_name)
         if result.startswith("Error"):
             print(f"Image generation failed: {result}")
             return None
         return result
-
-        image_bytes = result.generated_images[0].image.image_bytes
-
-        file_path = TEMP_DIR / f"generated_{uuid4().hex}.png"
-        with open(file_path, "wb") as f:
-                f.write(image_bytes)
-                
-        return str(file_path)
-            
     except Exception as e:
         raise Exception(f"Image generation failed: {str(e)}")
-    
-
-    

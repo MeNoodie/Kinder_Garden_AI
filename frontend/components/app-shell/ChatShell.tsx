@@ -65,7 +65,7 @@ export function ChatShell() {
           </section>
           {isCodeDrawerOpen ? (
             <aside className="hidden min-h-0 bg-[#F7F8F3] lg:block">
-              <CodeDrawer onClose={() => setIsCodeDrawerOpen(false)} />
+              <CodeDrawer mode={mode} onClose={() => setIsCodeDrawerOpen(false)} />
             </aside>
           ) : null}
         </div>

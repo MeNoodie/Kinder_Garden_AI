@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChatInput } from "@/components/app-shell/ChatInput";
 import { EmptyState } from "@/components/app-shell/EmptyState";
 import { LoadingState } from "@/components/app-shell/LoadingState";
@@ -10,6 +10,8 @@ type ChatMessage = {
   role: "user" | "assistant";
   content: string;
   time: string;
+  imageUrl?: string;
+  audioUrl?: string;
 };
 
 const initialMessages: ChatMessage[] = [
@@ -43,7 +45,23 @@ function getBackendMode(mode: string) {
 }
 
 function getOutputFormat(mode: string) {
+  if (mode === "text-to-image") {
+    return "image";
+  }
+
   return mode === "text-to-speech" ? "audio" : "text";
+}
+
+function getAssetUrl(path?: string) {
+  if (!path) {
+    return undefined;
+  }
+
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    return path;
+  }
+
+  return `${API_BASE_URL}${path}`;
 }
 
 export function Chat({ mode, model }: { mode: string; model: string }) {
@@ -51,6 +69,16 @@ export function Chat({ mode, model }: { mode: string; model: string }) {
   const [input, setInput] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isLoading]);
 
   async function handleSubmit() {
     const query = input.trim();
@@ -92,13 +120,14 @@ export function Chat({ mode, model }: { mode: string; model: string }) {
         throw new Error(data.detail ?? "Backend request failed.");
       }
 
-      const audioNote = data.audio_file ? `\n\nAudio file: ${data.audio_file}` : "";
       setMessages((current) => [
         ...current,
         {
           role: "assistant",
-          content: `${data.response}${audioNote}`,
+          content: data.response,
           time: getTime(),
+          imageUrl: getAssetUrl(data.image_file),
+          audioUrl: getAssetUrl(data.audio_file),
         },
       ]);
     } catch (error) {
@@ -117,13 +146,6 @@ export function Chat({ mode, model }: { mode: string; model: string }) {
 
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden">
-      <div className="shrink-0 border-b border-[#DADFD2] px-4 py-3 md:px-6 md:py-4">
-        <div className="max-w-3xl">
-          <p className="text-xs uppercase tracking-[0.16em] text-[#5D6458]">Response window</p>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight">Ask your model</h1>
-        </div>
-      </div>
-
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         <div className="min-h-0 flex-1 overflow-y-auto px-4 py-6 md:px-6 subtle-scrollbar">
           <div className="mx-auto flex max-w-3xl flex-col gap-4">
@@ -132,6 +154,7 @@ export function Chat({ mode, model }: { mode: string; model: string }) {
               <Message key={index} {...message} />
             ))}
             {isLoading ? <LoadingState /> : null}
+            <div ref={messagesEndRef} />
           </div>
         </div>
 

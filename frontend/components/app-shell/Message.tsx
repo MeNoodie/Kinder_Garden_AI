@@ -4,10 +4,14 @@ export function Message({
   role,
   content,
   time,
+  imageUrl,
+  audioUrl,
 }: {
   role: "user" | "assistant";
   content: string;
   time: string;
+  imageUrl?: string;
+  audioUrl?: string;
 }) {
   const isAssistant = role === "assistant";
 
@@ -29,6 +33,16 @@ export function Message({
       <div className="whitespace-pre-wrap break-words text-sm leading-7 text-[#101410]">
         {content}
       </div>
+      {imageUrl ? (
+        <img
+          src={imageUrl}
+          alt="Generated result"
+          className="mt-4 max-h-[420px] w-full rounded-lg border border-[#DADFD2] object-contain"
+        />
+      ) : null}
+      {audioUrl ? (
+        <audio controls src={audioUrl} className="mt-4 w-full" />
+      ) : null}
     </article>
   );
 }

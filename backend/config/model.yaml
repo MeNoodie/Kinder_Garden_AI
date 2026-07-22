@@ -11,7 +11,7 @@ text:
     glm-5.2:cloud:
       provider: ollama
 
-    qwen/qwen3-32b:
+    openai/gpt-oss-120b:
       provider: groq
 
 vision:

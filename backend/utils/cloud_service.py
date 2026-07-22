@@ -25,7 +25,6 @@ def get_tasks():
 
    
 def get_provider(model_name: str):
-    
     for task_data in MODELS.values():
         models = task_data["models"]
         if model_name in models:
@@ -33,11 +32,25 @@ def get_provider(model_name: str):
 
     return None
 
+
+def get_model_task(model_name: str):
+    for task, task_data in MODELS.items():
+        if model_name in task_data["models"]:
+            return task
+
+    return None
+
+
 def get_chat_models(model_name):
 
-    provider = get_provider(model_name)
-    if provider is None:
+    task = get_model_task(model_name)
+    if task is None:
         raise ValueError(f"Model '{model_name}' is not configured")
+
+    if task not in {"text", "vision"}:
+        raise ValueError(f"Model '{model_name}' is configured for '{task}', not chat.")
+
+    provider = get_provider(model_name)
 
     provider = provider.lower()
 

@@ -228,7 +228,7 @@ POST /api/chat
 | Field | Type | Example | Required |
 | --- | --- | --- | --- |
 | `mode` | string | `text`, `image`, `audio` | Yes |
-| `model_name` | string | `gemini-2.5-flash`, `qwen/qwen3-32b`, `llava` | Yes |
+| `model_name` | string | `gemini-2.5-flash`, `openai/gpt-oss-120b`, `llava` | Yes |
 | `query` | string | `Explain transformers simply` | Required for text |
 | `file` | file | image/audio upload | Required for image/audio |
 | `output_format` | string | `text`, `audio` | No |
@@ -341,7 +341,7 @@ text:
     gemini-2.5-flash:
       provider: google
 
-    qwen/qwen3-32b:
+    openai/gpt-oss-120b:
       provider: groq
 
 vision:
@@ -353,7 +353,7 @@ vision:
 The frontend must send the exact YAML key:
 
 ```ts
-{ value: "qwen/qwen3-32b", label: "Text | Groq | qwen/qwen3-32b" }
+{ value: "openai/gpt-oss-120b", label: "Text | Groq | openai/gpt-oss-120b" }
 ```
 
 > **Routing rule:** The `label` is cosmetic. The `value` is the real model id sent to FastAPI.
