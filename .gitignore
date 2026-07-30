@@ -1,7 +1,7 @@
 # Local environment and secrets
 .env
 .env.*
-.gitignore
+/.gitignore
 # Python
 .venv/
 __pycache__/
