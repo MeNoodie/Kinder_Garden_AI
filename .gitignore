@@ -1,7 +1,7 @@
 # Local environment and secrets
 .env
 .env.*
-/.gitignore
+
 # Python
 .venv/
 __pycache__/
@@ -27,3 +27,5 @@ uvicorn*.log
 Thumbs.db
 .vscode/
 .idea/
+
+.gitignore
