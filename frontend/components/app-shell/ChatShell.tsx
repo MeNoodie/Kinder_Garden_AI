@@ -9,7 +9,7 @@ import { Select } from "@/components/ui/select";
 
 export function ChatShell() {
   const [mode, setMode] = useState("");
-  const [model, setModel] = useState("gemini-2.5-flash");
+  const [model, setModel] = useState("gemini-3.5-flash");
   const [isCodeDrawerOpen, setIsCodeDrawerOpen] = useState(false);
 
   useEffect(() => {

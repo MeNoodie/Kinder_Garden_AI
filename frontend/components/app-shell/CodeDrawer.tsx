@@ -21,10 +21,10 @@ const fallbackData: Record<string, ModeDetail> = {
       "1. User enters text prompt in the chat input.",
       "2. Frontend creates FormData (mode='text', query=prompt, output_format='text').",
       "3. Frontend calls FastAPI backend POST /api/chat endpoint.",
-      "4. Backend calls LLM model (e.g. gemini-2.5-flash) via LangChain.",
+      "4. Backend calls LLM model (e.g. gemini-3.5-flash) via LangChain.",
       "5. Backend returns response JSON back to frontend."
     ],
-    frontend_code: "// Step 1: Collect prompt & build request FormData\nconst formData = new FormData();\nformData.append('mode', 'text');\nformData.append('query', textPrompt);\nformData.append('model_name', 'gemini-2.5-flash');\nformData.append('output_format', 'text');\n\n// Step 2: Post to backend chat endpoint\nconst response = await fetch('http://127.0.0.1:8000/api/chat', {\n  method: 'POST',\n  body: formData,\n});\nconst data = await response.json();",
+    frontend_code: "// Step 1: Collect prompt & build request FormData\nconst formData = new FormData();\nformData.append('mode', 'text');\nformData.append('query', textPrompt);\nformData.append('model_name', 'gemini-3.5-flash');\nformData.append('output_format', 'text');\n\n// Step 2: Post to backend chat endpoint\nconst response = await fetch('http://127.0.0.1:8000/api/chat', {\n  method: 'POST',\n  body: formData,\n});\nconst data = await response.json();",
     backend_code: "# Step 1: Route receives form data\n@router.post('/chat')\nasync def chat(mode: str = Form(...), query: str = Form(...)):\n    # Step 2: Invoke LLM model\n    model = get_chat_models(model_name)\n    ai_response = process_text(query, model)\n    # Step 3: Return JSON payload\n    return {'status': 'success', 'mode': mode, 'response': ai_response}"
   },
   "text-to-image": {

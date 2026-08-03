@@ -1,6 +1,6 @@
 {
-  "name": "multimodal-ai-playground-frontend",
-  "private": true,
+  "name": "kinder-garden-ai-frontend",
+  "private": false,
   "version": "0.1.0",
   "type": "module",
   "scripts": {

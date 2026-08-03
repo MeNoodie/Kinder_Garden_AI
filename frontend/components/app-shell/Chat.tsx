@@ -104,7 +104,7 @@ export function Chat({ mode, model }: { mode: string; model: string }) {
       const formData = new FormData();
       formData.append("mode", backendMode);
       formData.append("query", query);
-      formData.append("model_name", model || "gemini-2.5-flash");
+      formData.append("model_name", model || "gemini-3.5-flash");
       formData.append("output_format", getOutputFormat(mode));
       if (selectedFile) {
         formData.append("file", selectedFile);

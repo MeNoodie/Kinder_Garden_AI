@@ -5,7 +5,7 @@
 
 text:
   models:
-    gemini-2.5-flash:
+    gemini-3.5-flash:
       provider: google
 
     glm-5.2:cloud:

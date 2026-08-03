@@ -14,7 +14,7 @@ export const modeOptions = [
 ];
 
 export const modelOptions = [
-  { value: "gemini-2.5-flash", label: "Text | Google | gemini-2.5-flash" },
+  { value: "gemini-3.5-flash", label: "Text | Google | gemini-3.5-flash" },
   { value: "glm-5.2:cloud", label: "Text | Ollama | glm-5.2:cloud" },
   { value: "openai/gpt-oss-120b", label: "Text | Groq | openai/gpt-oss-120b" },
   { value: "gemini-2.5-pro", label: "Vision | Google | gemini-2.5-pro" },

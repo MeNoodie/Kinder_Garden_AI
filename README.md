@@ -1,6 +1,8 @@
 <div align="center">
 
-<img src="./gemini-svg.svg" alt="Kinder_Garden AI Logo" width="100%">
+<img src="./gemini-svg.svg" alt="Kinder Garden AI logo" width="100%">
+
+# Kinder Garden AI
 
 **A hands-on AI engineering sandbox for learning multimodal routing, provider abstraction, and safe backend architecture.**
 
@@ -16,7 +18,7 @@
 
 ## Why This Exists
 
-kinder_Garden AI is a community-driven learning hub for developers who want to understand how AI systems are wired in the real world.
+Kinder Garden AI is a community-driven learning hub for developers who want to understand how AI systems are wired in the real world.
 
 Modern AI apps rarely depend on one provider forever. A useful application may start with Gemini, add Groq for fast inference, use Ollama for local experiments, and later introduce image or audio workflows. Without a routing layer, every model swap leaks into the rest of the application.
 
@@ -72,8 +74,8 @@ Built pieces:
 ### 1. Clone The Repository
 
 ```bash
-git clone <your-repo-url>
-cd O_Genrator
+git clone https://github.com/MeNoodie/Kinder_Garden_AI.git
+cd Kinder_Garden_AI
 ```
 
 ### 2. Create A Python Environment
@@ -338,7 +340,7 @@ Example:
 ```yaml
 text:
   models:
-    gemini-2.5-flash:
+    gemini-3.5-flash:
       provider: google
 
     openai/gpt-oss-120b:
@@ -363,7 +365,7 @@ The frontend must send the exact YAML key:
 ## Project Structure
 
 ```text
-O_Genrator/
+Kinder_Garden_AI/
   main.py
   backend/
     api/
@@ -398,7 +400,7 @@ O_Genrator/
 
 ## Contribution Guide
 
-Open AI Orchestrator is built to welcome both beginners and experienced AI engineers.
+Kinder Garden AI welcomes both beginners and experienced AI engineers. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening an issue or pull request.
 
 ### `[GOOD-FIRST-ISSUE]`
 
@@ -445,10 +447,10 @@ git checkout -b feature/your-feature-name
 
 ## License
 
-MIT. Update the repository with a `LICENSE` file before public release.
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 
 ## Final Note
 
-Open AI Orchestrator is an invitation to learn AI engineering by building the routing layer yourself. If you want to understand how text, vision, and audio workflows can share one backend without becoming tangled, this repo gives you a practical place to experiment.
+Kinder Garden AI is an invitation to learn AI engineering by building the routing layer yourself. If you want to understand how text, vision, and audio workflows can share one backend without becoming tangled, this repository gives you a practical place to experiment.
