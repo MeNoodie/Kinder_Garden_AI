@@ -69,6 +69,7 @@ export function Chat({ mode, model }: { mode: string; model: string }) {
   const [input, setInput] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [modeWarning, setModeWarning] = useState<string | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -80,14 +81,27 @@ export function Chat({ mode, model }: { mode: string; model: string }) {
     scrollToBottom();
   }, [messages, isLoading]);
 
+  useEffect(() => {
+    if (mode) {
+      setModeWarning(null);
+    }
+  }, [mode]);
+
   async function handleSubmit() {
     const query = input.trim();
-    const backendMode = getBackendMode(mode || "text-to-text");
+
+    if (!mode) {
+      setModeWarning("Please select an interaction mode before submitting your query.");
+      return;
+    }
+
+    const backendMode = getBackendMode(mode);
 
     if ((!query && !selectedFile) || isLoading) {
       return;
     }
 
+    setModeWarning(null);
     setInput("");
     setSelectedFile(null);
     setIsLoading(true);
@@ -160,9 +174,15 @@ export function Chat({ mode, model }: { mode: string; model: string }) {
 
         <div className="shrink-0 border-t border-[#DADFD2] px-3 py-3 md:px-6 md:py-4">
           <div className="mx-auto max-w-3xl">
+            {modeWarning ? (
+              <div className="mb-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
+                {modeWarning}
+              </div>
+            ) : null}
             <ChatInput
               disabled={isLoading}
               file={selectedFile}
+              hasMode={Boolean(mode)}
               mode={getBackendMode(mode || "text-to-text")}
               value={input}
               onClearFile={() => setSelectedFile(null)}

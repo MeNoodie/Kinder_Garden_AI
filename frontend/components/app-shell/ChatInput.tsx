@@ -8,6 +8,7 @@ export function ChatInput({
   disabled,
   file,
   mode,
+  hasMode = true,
   onChange,
   onClearFile,
   onFileChange,
@@ -17,6 +18,7 @@ export function ChatInput({
   disabled?: boolean;
   file: File | null;
   mode: "text" | "image" | "audio";
+  hasMode?: boolean;
   onChange: (value: string) => void;
   onClearFile: () => void;
   onFileChange: (file: File) => void;
@@ -128,7 +130,7 @@ export function ChatInput({
           </button>
           <button
             className="ml-auto h-11 rounded-full bg-[#101410] px-5 text-white hover:bg-[#2A3028] disabled:cursor-not-allowed disabled:opacity-50"
-            disabled={disabled || (!value.trim() && !file)}
+            disabled={disabled || !hasMode || (!value.trim() && !file)}
             onClick={onSubmit}
             type="button"
           >
