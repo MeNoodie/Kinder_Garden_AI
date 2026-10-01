@@ -38,4 +38,4 @@ def process_text(user_query: str, model_name: Optional[str] = "gemini-2.5-flash"
                 status_code=502, 
                 detail="The AI service is currently unreachable due to sytem Failure"
             )    
-            
+

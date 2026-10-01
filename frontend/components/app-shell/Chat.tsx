@@ -14,14 +14,7 @@ type ChatMessage = {
   audioUrl?: string;
 };
 
-const initialMessages: ChatMessage[] = [
-  {
-    role: "assistant",
-    content:
-      "Welcome to the multimodal workspace. Pick a mode on the left, then send text, an image, or audio to start a routed workflow.",
-    time: "09:14",
-  },
-];
+const initialMessages: ChatMessage[] = [];
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
 
@@ -162,8 +155,8 @@ export function Chat({ mode, model }: { mode: string; model: string }) {
     <div className="flex h-full min-h-0 flex-col overflow-hidden">
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         <div className="min-h-0 flex-1 overflow-y-auto px-4 py-6 md:px-6 subtle-scrollbar">
-          <div className="mx-auto flex max-w-3xl flex-col gap-4">
-            <EmptyState />
+          <div className={`mx-auto flex min-h-full max-w-3xl flex-col gap-4 ${messages.length === 0 ? "" : "justify-end"}`}>
+            {messages.length === 0 ? <EmptyState /> : null}
             {messages.map((message, index) => (
               <Message key={index} {...message} />
             ))}
@@ -172,8 +165,8 @@ export function Chat({ mode, model }: { mode: string; model: string }) {
           </div>
         </div>
 
-        <div className="shrink-0 border-t border-[#DADFD2] px-3 py-3 md:px-6 md:py-4">
-          <div className="mx-auto max-w-3xl">
+        <div className="shrink-0 border-t border-[#e9ece6] bg-[#fbfcf9] px-4 py-4 md:px-8 md:py-5">
+          <div className="mx-auto max-w-none">
             {modeWarning ? (
               <div className="mb-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
                 {modeWarning}

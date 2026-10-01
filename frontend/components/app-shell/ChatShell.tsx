@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { modeOptions, modelOptions, Sidebar } from "@/components/app-shell/Sidebar";
+import { Sidebar } from "@/components/app-shell/Sidebar";
 import { Chat } from "@/components/app-shell/Chat";
 import { CodeDrawer } from "@/components/app-shell/CodeDrawer";
 import { TopBar } from "@/components/app-shell/TopBar";
-import { Select } from "@/components/ui/select";
 
 export function ChatShell() {
   const [mode, setMode] = useState("");
@@ -17,50 +16,21 @@ export function ChatShell() {
   }, [mode]);
 
   return (
-    <main className="h-dvh overflow-hidden bg-[#F6F7F2] p-2 text-[#101410] sm:p-4">
-      <div className="mx-auto flex h-full max-w-7xl flex-col overflow-hidden rounded-[20px] border border-[#DADFD2] bg-white sm:rounded-[28px]">
-        <TopBar
-          onShowCode={() => setIsCodeDrawerOpen(true)}
-          showCodeAvailable={Boolean(mode)}
-        />
-        <div
-          className={`grid min-h-0 flex-1 grid-cols-1 overflow-hidden ${
-            isCodeDrawerOpen ? "lg:grid-cols-[260px_minmax(0,1fr)_360px]" : "lg:grid-cols-[260px_minmax(0,1fr)]"
-          }`}
-        >
-          <aside className="hidden min-h-0 border-r border-[#DADFD2] bg-[#F7F8F3] lg:block">
-            <Sidebar
-              mode={mode}
-              model={model}
-              onModeChange={setMode}
-              onModelChange={setModel}
-            />
-          </aside>
-          <section className="flex min-h-0 min-w-0 flex-col overflow-hidden border-r border-[#DADFD2] bg-white">
-            <div className="grid gap-3 border-b border-[#DADFD2] bg-[#F7F8F3] p-3 sm:grid-cols-2 lg:hidden">
-              <label className="space-y-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#5D6458]">
-                Mode
-                <Select value={mode} onChange={(event) => setMode(event.target.value)}>
-                  <option value="">Select a mode</option>
-                  {modeOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </Select>
-              </label>
-              <label className="space-y-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#5D6458]">
-                Model
-                <Select value={model} onChange={(event) => setModel(event.target.value)}>
-                  <option value="">Select a model</option>
-                  {modelOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </Select>
-              </label>
-            </div>
+    <main className="h-dvh overflow-hidden bg-[#f7f8f4] p-2 text-[#101410] sm:p-3">
+      <div className="mx-auto grid h-full max-w-[1640px] grid-cols-1 overflow-hidden rounded-[24px] border border-[#e1e5dc] bg-white shadow-[0_12px_40px_rgba(29,37,22,0.05)] lg:grid-cols-[356px_minmax(0,1fr)]">
+        <aside className="hidden min-h-0 border-r border-[#e1e5dc] bg-[#fbfcf9] lg:block">
+          <Sidebar />
+        </aside>
+        <div className="flex min-h-0 min-w-0 flex-col overflow-hidden">
+          <TopBar
+            mode={mode}
+            model={model}
+            onModeChange={setMode}
+            onModelChange={setModel}
+            onShowCode={() => setIsCodeDrawerOpen(true)}
+          />
+          <div className={`grid min-h-0 flex-1 overflow-hidden ${isCodeDrawerOpen ? "lg:grid-cols-[minmax(0,1fr)_360px]" : "grid-cols-1"}`}>
+          <section className="flex min-h-0 min-w-0 flex-col overflow-hidden bg-white">
             <Chat mode={mode} model={model} />
           </section>
           {isCodeDrawerOpen ? (
@@ -69,6 +39,7 @@ export function ChatShell() {
             </aside>
           ) : null}
         </div>
+      </div>
       </div>
     </main>
   );
