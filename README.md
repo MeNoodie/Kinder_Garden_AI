@@ -162,6 +162,26 @@ http://127.0.0.1:3000
 
 ---
 
+## Run With Docker Desktop
+
+Install and start Docker Desktop, then from the `Multimodal_AI` directory copy `.example.env` to `.env` and add any provider API keys you use. In PowerShell:
+
+```powershell
+Copy-Item .example.env .env
+```
+
+Build the two project images and start both containers:
+
+```bash
+docker compose up --build
+```
+
+Open the frontend at `http://localhost:3002` and the API docs at `http://localhost:8000/docs`. Compose creates the `kinder-garden-ai-frontend:local` and `kinder-garden-ai-backend:local` images; they are also visible in Docker Desktop under **Images**. Generated audio and images persist in Docker volumes.
+
+Stop the containers with `Ctrl+C`, or run `docker compose down` in another terminal. To start them again later, use `docker compose up`.
+
+---
+
 ## Ollama Local vs Cloud
 
 | Runtime | Tag | How It Works | Common Failure |

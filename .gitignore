@@ -1,6 +1,11 @@
 # Local environment and secrets
 .env
 .env.*
+!.example.env
+
+# Local cloud credentials and private keys
+*accessKeys*.csv
+*.pem
 
 # Python
 .venv/
@@ -13,6 +18,7 @@ frontend/node_modules/
 frontend/.next/
 frontend/out/
 frontend/*.log
+frontend/tsconfig.tsbuildinfo
 
 # Backend generated output
 audio_outputs/

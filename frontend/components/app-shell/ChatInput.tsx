@@ -70,7 +70,7 @@ export function ChatInput({
   }
 
   return (
-    <div className="rounded-[24px] border border-[#DADFD2] bg-[#F7F8F3] p-3">
+    <div className="rounded-[20px] border border-[#dce4b9] bg-white p-2 shadow-[0_2px_8px_rgba(22,32,15,0.02)]">
       <div className="flex flex-col gap-3">
         <input
           ref={fileInputRef}
@@ -85,7 +85,7 @@ export function ChatInput({
           }}
         />
         <textarea
-          className="max-h-28 min-h-16 w-full resize-none rounded-2xl border border-[#C9D0C1] bg-white px-4 py-3 text-sm text-[#101410] outline-none transition focus:border-[#101410] sm:min-h-[76px]"
+          className="max-h-28 min-h-14 w-full resize-none rounded-xl border-0 bg-transparent px-3 py-2.5 text-sm text-[#101410] outline-none placeholder:text-[#9aa19a] sm:min-h-[64px]"
           placeholder="Ask something..."
           value={value}
           onChange={(event) => onChange(event.target.value)}
@@ -109,9 +109,9 @@ export function ChatInput({
             </button>
           </div>
         ) : null}
-        <div className="flex items-end gap-3">
+        <div className="flex items-end gap-2 border-t border-[#eef0ea] pt-2">
           <button
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#C9D0C1] bg-white text-[#101410] transition hover:bg-[#D7FF5F] disabled:opacity-50"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#e1e5dc] bg-white text-[#101410] transition hover:bg-[#eaffb8] disabled:opacity-50"
             disabled={disabled}
             onClick={() => fileInputRef.current?.click()}
             type="button"
@@ -119,8 +119,8 @@ export function ChatInput({
             <Paperclip className="h-4 w-4" />
           </button>
           <button
-            className={`flex h-11 w-11 items-center justify-center rounded-full border border-[#C9D0C1] text-[#101410] transition hover:bg-[#D7FF5F] disabled:opacity-50 ${
-              isRecording ? "bg-[#D7FF5F]" : "bg-white"
+            className={`flex h-10 w-10 items-center justify-center rounded-full border border-[#e1e5dc] text-[#101410] transition hover:bg-[#eaffb8] disabled:opacity-50 ${
+              isRecording ? "bg-[#eaffb8]" : "bg-white"
             }`}
             disabled={disabled}
             onClick={handleVoiceClick}
@@ -129,7 +129,7 @@ export function ChatInput({
             <Mic className="h-4 w-4" />
           </button>
           <button
-            className="ml-auto h-11 rounded-full bg-[#101410] px-5 text-white hover:bg-[#2A3028] disabled:cursor-not-allowed disabled:opacity-50"
+            className="ml-auto h-10 rounded-full bg-[#caff37] px-5 text-sm font-semibold text-[#263000] transition hover:bg-[#bcec2e] disabled:cursor-not-allowed disabled:opacity-50"
             disabled={disabled || !hasMode || (!value.trim() && !file)}
             onClick={onSubmit}
             type="button"
